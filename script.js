@@ -16,18 +16,11 @@ function renderCharacters(characters) {
   let allCardsHTML = ''; 
     
   characters.forEach(character => {
-    const firstTenEpisodes = character.episode.slice(0, 10);
-    const episodesLinks = firstTenEpisodes.map(episodeUrl => {
-      const episodeId = episodeUrl.split('/').pop();
-      return `<a href="episodes.html?id=${episodeId}">${episodeId}</a>`;
-    }).join(', ');
-
     allCardsHTML += ` 
       <div class="character-card">
         <img src="${character.image}" alt="${character.name}" />
         <h2>${character.name}</h2>
         <p>Статус: ${character.status}</p>
-        <p><strong>Эпизоды:</strong> ${episodesLinks}</p>
       </div> 
     `;
   });
@@ -35,7 +28,9 @@ function renderCharacters(characters) {
   charactersGrid.innerHTML = allCardsHTML; 
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+const handleLoadButtonClick = async () => {
   const characters = await fetchCharacters();
   renderCharacters(characters);
-});
+};
+const loadButton = document.querySelector('.loadButton');
+loadButton.addEventListener('click', handleLoadButtonClick);
